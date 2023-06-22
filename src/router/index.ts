@@ -1,27 +1,24 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import CityDetailView from '../views/CityDetailView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
-    path: '/city/:id',
-    name: 'cityDetail',
-    component: () => import('../views/CityDetailView.vue')
+    path: '/city/:lat/:lon',
+    name: 'CityDetail',
+    component: CityDetailView,
+    props: route => ({ lat: Number(route.params.lat), lon: Number(route.params.lon) })
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;

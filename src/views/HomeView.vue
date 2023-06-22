@@ -1,13 +1,20 @@
 <template>
-  <div class="home">
-
+  <div class="home-view">
+    <h1>Recherche de météo</h1>
+    <SearchBar />
+    <FavoritesList />
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
+<script lang="ts">
+import { defineComponent } from 'vue';
+import SearchBar from '../components/SearchBar.vue';
+import FavoritesList from '../components/FavoritesList.vue';
 
-export default {
-  name: 'HomeView',
-}
+export default defineComponent({
+  components: {
+    SearchBar,
+    FavoritesList
+  }
+});
 </script>
