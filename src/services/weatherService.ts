@@ -23,7 +23,7 @@ export async function searchCities(query: string) {
 
 export async function fetchWeatherData(lat: number, lon: number) {
     try {
-        const response = await apiClient.get('/current.json', { params: { q: `${lat},${lon}` } });
+        const response = await apiClient.get('/forecast.json', { params: { q: `${lat},${lon}`, days: '3' } });
         return response.data;
     } catch (error) {
         console.error('An error occurred while fetching weather data:', error);

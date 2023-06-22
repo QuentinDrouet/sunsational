@@ -6,6 +6,18 @@
     <p>Température : {{ weatherData.current.temp_c }}°C</p>
     <p>Humidité : {{ weatherData.current.humidity }}%</p>
     <p>Vitesse du vent : {{ weatherData.current.wind_kph }} kph</p>
+
+    <div v-if="weatherData.forecast" class="forecast">
+      <h3>Prévisions météo:</h3>
+      <div v-for="forecastDay in weatherData.forecast.forecastday" :key="forecastDay.date" class="forecast-day">
+        <h4>{{ forecastDay.date }}</h4>
+        <p>{{ forecastDay.day.condition.text }}</p>
+        <img :src="forecastDay.day.condition.icon" alt="Weather icon">
+        <p>Température maximale: {{ forecastDay.day.maxtemp_c }}°C</p>
+        <p>Température minimale: {{ forecastDay.day.mintemp_c }}°C</p>
+      </div>
+    </div>
+
     <button v-if="!isCityInFavorites" @click="addToFavorites">Ajouter aux favoris</button>
   </div>
   <div v-else>
