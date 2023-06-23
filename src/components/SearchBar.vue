@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { searchCities } from '@/services/weatherService';
 
 export default defineComponent({
@@ -19,18 +19,23 @@ export default defineComponent({
     const query = ref('');
     const router = useRouter();
     const cities = ref([]);
+    const route = useRoute();
 
     const search = async () => {
       cities.value = await searchCities(query.value);
     };
 
     const goToCityDetail = (city: any) => {
-      // Assure-toi que les données de la ville contiennent la latitude et la longitude
       router.push({
         name: 'CityDetail',
         params: { lat: city.lat, lon: city.lon }
       });
     };
+
+    watch(route, () => {
+      query.value = '';
+      cities.value = [];
+    });
 
     return { query, cities, search, goToCityDetail };
   }

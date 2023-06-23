@@ -1,14 +1,7 @@
 <template>
   <div v-if="weatherData" class="weather-display">
-    <h2>{{ weatherData.location.name }}, {{ weatherData.location.country }}</h2>
-    <p>{{ weatherData.current.condition.text }}</p>
-    <img :src="weatherData.current.condition.icon" alt="Weather icon">
-    <p>Température : {{ weatherData.current.temp_c }}°C</p>
-    <p>Humidité : {{ weatherData.current.humidity }}%</p>
-    <p>Vitesse du vent : {{ weatherData.current.wind_kph }} kph</p>
-
     <div v-if="weatherData.forecast" class="forecast">
-      <h3>Prévisions météo:</h3>
+      <h3 class="">Prévisions météo:</h3>
       <div v-for="forecastDay in weatherData.forecast.forecastday" :key="forecastDay.date" class="forecast-day">
         <h4>{{ forecastDay.date }}</h4>
         <p>{{ forecastDay.day.condition.text }}</p>
@@ -26,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, ref, onMounted, watch, computed } from 'vue';
 import { fetchWeatherData } from '@/services/weatherService';
 import { useWeatherStore } from '@/store/weatherStore';
 
@@ -75,8 +68,16 @@ export default defineComponent({
       );
     });
 
-    onMounted(async () => {
-      weatherData.value = await fetchWeatherData(props.lat, props.lon);
+    const fetchWeather = async (lat: number, lon: number) => {
+      weatherData.value = await fetchWeatherData(lat, lon);
+    };
+
+    onMounted(() => {
+      fetchWeather(props.lat, props.lon);
+    });
+
+    watch(() => [props.lat, props.lon], ([newLat, newLon]) => {
+      fetchWeather(newLat, newLon);
     });
 
     const addToFavorites = () => {
@@ -89,3 +90,4 @@ export default defineComponent({
   }
 });
 </script>
+
