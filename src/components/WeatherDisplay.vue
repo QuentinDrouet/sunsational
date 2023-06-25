@@ -1,11 +1,8 @@
 <template>
   <div v-if="weatherData">
-    <div class="font-medium py-8 flex items-center justify-between">
-      <div class="text-3xl">
-        <h1>{{ weatherData.location.name }},</h1>
-        <h2 class="opacity-70">{{ weatherData.location.country }}</h2>
-      </div>
-      <div class="cursor-pointer text-accent text-xl">
+    <div class="font-medium py-8 flex items-center justify-between md:justify-start md:gap-10">
+      <h1 class="text-3xl w-1/2 sm:text-4xl md:w-fit">{{ weatherData.location.name }}, <span class="opacity-70">{{ weatherData.location.country }}</span></h1>
+      <div class="cursor-pointer text-accent text-xl sm:text-2xl">
         <i
             v-if="isCityInFavorites"
             class="fa-solid fa-heart"
@@ -25,7 +22,7 @@
           v-for="(forecastDay, index) in weatherData.forecast.forecastday"
           :key="forecastDay.date"
           class="py-2 px-4 cursor-pointer whitespace-nowrap min-w-max"
-          :class="isSelected(forecastDay.date) ? 'border-b-2 border-accent text-accent' : 'text-gray-700 hover:text-accent'"
+          :class="isSelected(forecastDay.date) ? 'border-b-2 border-accent text-accent' : 'text-gray-500 hover:text-accent'"
       >
         <span>{{ index === 0 ? 'Today' : (index === 1 ? 'Tomorrow' : `+${index} days`) }}</span>
       </div>
@@ -34,10 +31,10 @@
     <div v-if="selectedDayData">
       <div class="rounded-2xl">
         <div class="flex items-center justify-center gap-8 py-5">
-          <img :src="getWeatherIcon(selectedDayData.day.condition.code)" alt="Weather icon" class="w-28 mt-5" />
+          <img :src="getWeatherIcon(selectedDayData.day.condition.code)" alt="Weather icon" class="w-28 mt-5 md:w-36" />
           <div>
-            <p class="text-5xl">{{ Math.round(selectedDayData.day.maxtemp_c) }}°</p>
-            <p class="text-4xl opacity-70">{{ Math.round(selectedDayData.day.mintemp_c) }}°</p>
+            <p class="text-5xl md:text-7xl">{{ Math.round(selectedDayData.day.maxtemp_c) }}°</p>
+            <p class="text-4xl opacity-70 md:text-6xl">{{ Math.round(selectedDayData.day.mintemp_c) }}°</p>
           </div>
         </div>
         <div class="flex flex-col justify-center gap-4">
@@ -71,10 +68,10 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-start gap-6 overflow-x-auto mt-12 -mr-6 hide-scrollbar">
-        <div v-for="(hourData, index) in filteredHourData" :key="hourData.time" class="flex flex-col gap-2 text-center whitespace-nowrap min-w-max p-4 rounded-xl" :class="index === 0 ? 'bg-primary' : ''">
+      <div class="flex items-center justify-start gap-6 md:gap-8 overflow-x-auto mt-12 -mr-6 hide-scrollbar">
+        <div v-for="(hourData, index) in filteredHourData" :key="hourData.time" class="flex flex-col gap-2 text-center whitespace-nowrap min-w-max p-4 md:p-6 rounded-xl" :class="index === 0 ? 'bg-primary' : ''">
           <p class="uppercase opacity-80 text-sm" >{{ new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: 'numeric', hour12: true }).format(new Date(hourData.time)) }}</p>
-          <img class="mx-auto w-10" :src="getWeatherIcon(hourData.condition.code)" alt="Weather icon" />
+          <img class="mx-auto w-10 md:w-16" :src="getWeatherIcon(hourData.condition.code)" alt="Weather icon" />
           <p class="text-lg">{{ Math.round(hourData.temp_c) }}°C</p>
         </div>
       </div>

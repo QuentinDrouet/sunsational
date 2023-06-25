@@ -11,7 +11,7 @@
         <li @click="goToCityDetail(city)" v-for="city in favoriteCitiesWithData" :key="city.name" class="flex items-center justify-between bg-primary rounded-xl px-5 py-4 cursor-pointer hover:opacity-90">
           <div class="flex items-center gap-2 justify-start">
             <div class="relative bg-secondary rounded-lg w-10 h-10 flex items-center justify-center">
-              <img :src="city.weatherIcon" alt="Weather Icon" class="w-6 h-6" />
+              <img :src="city.weatherIcon" alt="Weather Icon" class="w-8 h-8" />
             </div>
             <span>{{ city.name }}, {{ city.country}}</span>
           </div>
