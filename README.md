@@ -1,11 +1,13 @@
 # Sunsational Weather App ⛅
 
-Sunsational is a user-friendly web application that provides real-time weather forecasts for cities around the world. The main goal of this project is to create a straightforward and enjoyable experience for users looking for reliable weather information.
+Sunsational is a user-friendly web application that provides real-time weather forecasts for cities around the world. The main goal of this project is to create a straightforward and enjoyable experience for users looking for reliable weather information.    
+
+Visibile online here: https://sunsational.vercel.app/
 
 ## Features
 - **Search Any City**: Search for any city in the world to get the current weather.
 - **Daily Forecasts**: View the daily weather forecast including temperature, humidity, and wind speed
-- **Favorites**: Save your favorite cities for easy access to their weather information.
+- **Favorites**: Save your favorite cities (click on the 💜 icon) for easy access to their weather information.
 - **Designed Mobile First**: Designed to look great on both desktop and mobile devices.
 
 
