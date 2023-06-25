@@ -1,4 +1,5 @@
 <template>
+  <img src="@/assets/logo-custom.png">
   <div class="home-view flex flex-col justify-center items-center min-h-screen">
     <h1 class="text-3xl mb-4">Make Every Day <span class="">Sunsational!</span></h1>
     <p class="mb-8">Try:

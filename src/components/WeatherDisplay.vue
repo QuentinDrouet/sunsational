@@ -5,7 +5,7 @@
       <h2 class="opacity-70">{{ weatherData.location.country }}</h2>
     </div>
 
-    <div class="flex items-center justify-start bg-background gap-4 overflow-x-auto border-b border-gray-600 all">
+    <div class="flex items-center justify-start bg-background gap-4 overflow-x-auto border-b border-gray-600 all -mr-6 hide-scrollbar">
       <div
           @click="selectDay(forecastDay.date)"
           v-for="(forecastDay, index) in weatherData.forecast.forecastday"
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-start gap-6 overflow-x-auto mt-12">
+      <div class="flex items-center justify-start gap-6 overflow-x-auto mt-12 -mr-6 hide-scrollbar">
         <div v-for="(hourData, index) in filteredHourData" :key="hourData.time" class="flex flex-col gap-2 text-center whitespace-nowrap min-w-max p-4 rounded-xl" :class="index === 0 ? 'bg-primary' : ''">
           <p class="uppercase opacity-80 text-sm" >{{ new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: 'numeric', hour12: true }).format(new Date(hourData.time)) }}</p>
           <img class="mx-auto w-10" :src="getWeatherIcon(hourData.condition.code)" alt="Weather icon" />
@@ -200,3 +200,13 @@ export default defineComponent({
 });
 </script>
 
+<style scoped>
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+</style>
