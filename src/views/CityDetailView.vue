@@ -1,8 +1,7 @@
 <template>
   <div class="city-detail-view">
-    <h1>Détails météo pour la ville</h1>
-    <WeatherDisplay :lat="lat" :lon="lon" />
     <SearchBar />
+    <WeatherDisplay :lat="lat" :lon="lon" />
     <button @click="goBack">Retour</button>
   </div>
 </template>
@@ -19,14 +18,20 @@ export default defineComponent({
     SearchBar
   },
   props: {
-    lat: Number,
-    lon: Number
+    lat: {
+      type: Number,
+      required: true
+    },
+    lon: {
+      type: Number,
+      required: true
+    }
   },
   setup() {
     const router = useRouter();
 
     const goBack = () => {
-      router.back();
+      router.push('/');
     };
 
     return { goBack };

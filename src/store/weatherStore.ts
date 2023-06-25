@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-interface City {
+export interface City {
     name: string;
     country: string;
     lat: number;

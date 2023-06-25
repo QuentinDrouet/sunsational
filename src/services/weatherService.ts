@@ -30,3 +30,13 @@ export async function fetchWeatherData(lat: number, lon: number) {
         return null;
     }
 }
+
+export async function fetchRealtimeWeatherData(lat: number, lon: number) {
+    try {
+        const response = await apiClient.get('/current.json', { params: { q: `${lat},${lon}` } });
+        return response.data;
+    } catch (error) {
+        console.error('An error occurred while fetching weather data:', error);
+        return null;
+    }
+}
