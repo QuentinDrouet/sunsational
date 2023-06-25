@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import CityDetailView from '../views/CityDetailView.vue';
 
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/city/:lat/:lon',
     name: 'CityDetail',
     component: CityDetailView,
-    props: route => ({ lat: Number(route.params.lat), lon: Number(route.params.lon) })
+    props: (route: { params: { lat: any; lon: any; }; }) => ({ lat: Number(route.params.lat), lon: Number(route.params.lon) })
   }
 ];
 

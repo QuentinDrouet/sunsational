@@ -42,6 +42,7 @@ export default defineComponent({
     const route = useRoute();
     const listVisible = ref(false);
 
+    // Search for cities if query is not empty
     const search = async () => {
       if (query.value.trim()) {
         cities.value = await searchCities(query.value);
@@ -50,6 +51,7 @@ export default defineComponent({
       }
     };
 
+    // Navigate to city detail page
     const goToCityDetail = (city: any) => {
       router.push({
         name: 'CityDetail',
@@ -58,6 +60,7 @@ export default defineComponent({
       listVisible.value = false;
     };
 
+    // Close list if clicked outside
     const handleClickOutside = (e: Event) => {
       if (searchWrapper.value && !searchWrapper.value.contains(e.target as Node)) {
         listVisible.value = false;
@@ -72,6 +75,7 @@ export default defineComponent({
       document.removeEventListener("click", handleClickOutside);
     });
 
+    // Clear query and cities when route changes
     watch(route, () => {
       query.value = '';
       cities.value = [];

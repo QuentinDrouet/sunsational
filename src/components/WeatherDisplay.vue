@@ -38,33 +38,21 @@
           </div>
         </div>
         <div class="flex flex-col justify-center gap-4">
-          <div class="flex items-center justify-between bg-primary rounded-xl px-5 py-4">
-            <div class="flex items-center gap-2 justify-start">
-              <div class="relative bg-secondary rounded-lg w-10 h-10 flex items-center justify-center">
-                <i class="fa-solid fa-wind text-lg text-purple-400"></i>
-              </div>
-              <p>Wind</p>
-            </div>
-            <p>{{ selectedDayData.day.maxwind_kph }}km/h</p>
-          </div>
-          <div class="flex items-center justify-between bg-primary rounded-xl px-5 py-4">
-            <div class="flex items-center gap-2 justify-start">
-              <div class="relative bg-secondary rounded-lg w-10 h-10 flex items-center justify-center">
-                <i class="fa-solid fa-droplet text-lg text-purple-400"></i>
-              </div>
-              <p>Humidity</p>
-            </div>
-            <p>{{ selectedDayData.day.avghumidity }}%</p>
-          </div>
-          <div class="flex items-center justify-between bg-primary rounded-xl px-5 py-4">
-            <div class="flex items-center gap-2 justify-start">
-              <div class="relative bg-secondary rounded-lg w-10 h-10 flex items-center justify-center">
-                <i class="fa-solid fa-umbrella text-lg text-purple-400"></i>
-              </div>
-              <p>Chance of rain</p>
-            </div>
-            <p>{{ selectedDayData.day.daily_chance_of_rain }}%</p>
-          </div>
+          <WeatherDetailCard
+              iconClass="fa-solid fa-wind"
+              label="Wind"
+              :value="selectedDayData.day.maxwind_kph + 'km/h'"
+          />
+          <WeatherDetailCard
+              iconClass="fa-solid fa-droplet"
+              label="Humidity"
+              :value="selectedDayData.day.avghumidity + '%'"
+          />
+          <WeatherDetailCard
+              iconClass="fa-solid fa-umbrella"
+              label="Chance of rain"
+              :value="selectedDayData.day.daily_chance_of_rain + '%'"
+          />
         </div>
       </div>
 
@@ -88,7 +76,9 @@ import { defineComponent, ref, watchEffect, computed } from 'vue';
 import { fetchWeatherData } from '@/services/weatherService';
 import { useWeatherStore } from '@/store/weatherStore';
 import weatherIconMapping from '@/json/weather-codes.json';
+import WeatherDetailCard from '@/components/WeatherDetailCard.vue';
 
+// Define the structure of used objects
 interface WeatherLocation {
   name: string;
   country: string;
@@ -131,6 +121,9 @@ interface WeatherData {
 }
 
 export default defineComponent({
+  components: {
+    WeatherDetailCard
+  },
   props: {
     lat: {
       type: Number,
@@ -147,7 +140,7 @@ export default defineComponent({
     const selectedDayData = ref<ForecastDay | null>(null);
     const weatherStore = useWeatherStore();
 
-
+    // Watch for changes in latitude and longitude, and fetch new weather data when they change
     watchEffect(async () => {
       if (props.lat && props.lon) {
         const data = await fetchWeatherData(props.lat, props.lon);
@@ -156,6 +149,7 @@ export default defineComponent({
       }
     });
 
+    // Watch for changes in selectedDay and update selectedDayData accordingly
     watchEffect(() => {
       if (selectedDay.value) {
         selectedDayData.value = weatherData.value?.forecast?.forecastday.find(
@@ -164,19 +158,23 @@ export default defineComponent({
       }
     });
 
+    // Computed property for filtering hourly data for the selected day
     const filteredHourData = computed(() => {
       const now = new Date();
       return selectedDayData.value?.hour.filter((hourData: { time: string; }) => new Date(hourData.time) >= now) || [];
     });
 
+    // Function to set the selected day
     const selectDay = (date: null) => {
       selectedDay.value = date;
     };
 
+    // Function to check if a date is selected
     const isSelected = (date: null) => {
       return selectedDay.value === date;
     };
 
+    // Computed property to check if the current city is in favorites
     const isCityInFavorites = computed(() => {
       return weatherStore.favoriteCities.some(city =>
           city.name === weatherData.value?.location.name &&
@@ -185,18 +183,21 @@ export default defineComponent({
       );
     });
 
+    // Function to add the current city to favorites
     const addToFavorites = () => {
       if (weatherData.value && weatherData.value.location) {
         weatherStore.addFavoriteCity(weatherData.value.location);
       }
     };
 
+    // Function to remove the current city from favorites
     const removeFromFavorites = () => {
       if (weatherData.value && weatherData.value.location) {
-        weatherStore.removeCityFromFavorites(weatherData.value.location.name);
+        weatherStore.removeFavoriteCity(weatherData.value.location.name);
       }
     };
 
+    // Function to get the custom weather icon based on the condition code (see weather-codes.json)
     const getWeatherIcon = (conditionCode: number) => {
       const iconMap = weatherIconMapping.find(mapping => mapping.codes.includes(conditionCode));
       const icon = iconMap ? iconMap.icon : 'default';

@@ -47,6 +47,7 @@ export default defineComponent({
     const favoriteCitiesWithData = ref<CityWeatherData[]>([]);
     const isLoading = ref(true);
 
+    // Fetch weather data for each favorite city
     onMounted(async () => {
       const citiesWithData = [];
       for (let city of favoriteCities.value) {
@@ -63,6 +64,7 @@ export default defineComponent({
       isLoading.value = false;
     });
 
+    // Navigate to the detail page of the selected city
     const goToCityDetail = (city: { lat: number; lon: number }) => {
       router.push({
         name: 'CityDetail',
@@ -70,6 +72,7 @@ export default defineComponent({
       });
     };
 
+    // Truncate the text of the city name and country
     const truncateText = (text: string, maxLength: number) => {
       return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
     };
