@@ -42,10 +42,9 @@ export default defineComponent({
     const router = useRouter();
     const favoriteCities = computed(() => weatherStore.favoriteCities);
     const favoriteCitiesWithData = ref<CityWeatherData[]>([]);
-    const isLoading = ref(true); // Etat de chargement
+    const isLoading = ref(true);
 
     onMounted(async () => {
-      // Fetch weather data for each favorite city
       const citiesWithData = [];
       for (let city of favoriteCities.value) {
         const weatherData = await fetchRealtimeWeatherData(city.lat, city.lon);

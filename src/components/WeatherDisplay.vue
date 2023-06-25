@@ -1,8 +1,22 @@
 <template>
   <div v-if="weatherData">
-    <div class="text-3xl font-medium py-6">
-      <h1>{{ weatherData.location.name }},</h1>
-      <h2 class="opacity-70">{{ weatherData.location.country }}</h2>
+    <div class="font-medium py-8 flex items-center justify-between">
+      <div class="text-3xl">
+        <h1>{{ weatherData.location.name }},</h1>
+        <h2 class="opacity-70">{{ weatherData.location.country }}</h2>
+      </div>
+      <div class="cursor-pointer text-accent text-xl">
+        <i
+            v-if="isCityInFavorites"
+            class="fa-solid fa-heart"
+            @click="removeFromFavorites"
+        ></i>
+        <i
+            v-else
+            class="fa-regular fa-heart"
+            @click="addToFavorites"
+        ></i>
+      </div>
     </div>
 
     <div class="flex items-center justify-start bg-background gap-4 overflow-x-auto border-b border-gray-600 all -mr-6 hide-scrollbar">
@@ -19,7 +33,7 @@
 
     <div v-if="selectedDayData">
       <div class="rounded-2xl">
-        <div class="flex items-center justify-between p-5">
+        <div class="flex items-center justify-center gap-8 py-5">
           <img :src="getWeatherIcon(selectedDayData.day.condition.code)" alt="Weather icon" class="w-28 mt-5" />
           <div>
             <p class="text-5xl">{{ Math.round(selectedDayData.day.maxtemp_c) }}°</p>
@@ -65,10 +79,10 @@
         </div>
       </div>
     </div>
-    <button v-if="!isCityInFavorites" @click="addToFavorites" class="mt-24">Ajouter aux favoris</button>
   </div>
-  <div v-else>
-    <p>Loading weather data...</p>
+  <div v-else class="flex flex-col items-center mt-10 gap-4">
+    <div class="spinner"></div>
+    <p>Fetching weather...</p>
   </div>
 </template>
 
@@ -180,6 +194,12 @@ export default defineComponent({
       }
     };
 
+    const removeFromFavorites = () => {
+      if (weatherData.value && weatherData.value.location) {
+        weatherStore.removeCityFromFavorites(weatherData.value.location.name);
+      }
+    };
+
     const getWeatherIcon = (conditionCode: number) => {
       const iconMap = weatherIconMapping.find(mapping => mapping.codes.includes(conditionCode));
       const icon = iconMap ? iconMap.icon : 'default';
@@ -194,7 +214,8 @@ export default defineComponent({
       filteredHourData,
       addToFavorites,
       isCityInFavorites,
-      getWeatherIcon
+      getWeatherIcon,
+      removeFromFavorites
     };
   }
 });
@@ -209,4 +230,19 @@ export default defineComponent({
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #000;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 </style>

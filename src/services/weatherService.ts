@@ -1,12 +1,11 @@
 import axios from 'axios';
 
 const API_URL = 'https://weatherapi-com.p.rapidapi.com';
-const RAPIDAPI_KEY = 'b4eea8d446mshc4f01aff16aa4a0p1c7187jsn3f4e64028ac2';
 
 const apiClient = axios.create({
     baseURL: API_URL,
     headers: {
-        'X-RapidAPI-Key': RAPIDAPI_KEY,
+        'X-RapidAPI-Key': process.env.VUE_APP_RAPIDAPI_KEY,
         'Content-Type': 'application/json'
     }
 });

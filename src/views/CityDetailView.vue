@@ -1,8 +1,11 @@
 <template>
   <div class="city-detail-view">
+    <div @click="goBack" class="flex items-center justify-start gap-2 cursor-pointer opacity-60 hover:opacity-100 transition-all w-fit mb-10">
+      <i class="fa-solid fa-chevron-left"></i>
+      <p>Retour</p>
+    </div>
     <SearchBar />
     <WeatherDisplay :lat="lat" :lon="lon" />
-    <button @click="goBack">Retour</button>
   </div>
 </template>
 

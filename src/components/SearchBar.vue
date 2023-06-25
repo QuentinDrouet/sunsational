@@ -12,11 +12,11 @@
     </div>
     <div
         v-if="listVisible"
-        class="absolute bg-secondary z-10 w-full top-12 rounded-xl overflow-hidden"
+        class="absolute bg-primary z-10 w-full top-12 rounded-xl overflow-hidden"
     >
       <ul v-if="cities.length > 0">
         <li
-            class="hover:bg-gray-700 cursor-pointer py-3 px-5"
+            class="hover:bg-secondary cursor-pointer py-3 px-5"
             v-for="city in cities"
             :key="city.id"
             @click="goToCityDetail(city)"

@@ -1,7 +1,7 @@
 <template>
   <img src="@/assets/logo-custom.png">
-  <div class="home-view flex flex-col justify-center items-center min-h-screen">
-    <h1 class="text-3xl mb-4">Make Every Day <span class="">Sunsational!</span></h1>
+  <div class="home-view flex flex-col min-h-screen">
+    <h1 class="text-3xl mb-4 mt-12">Make Every Day <span class="">Sunsational!</span></h1>
     <p class="mb-8">Try:
       <span @click="goToCityDetail(48.87, 2.33)" class="cursor-pointer hover:underline text-accent">Paris</span>,
       <span @click="goToCityDetail(51.52, -0.11)" class="cursor-pointer hover:underline text-accent">London</span>,
