@@ -1,6 +1,6 @@
 <template>
   <div v-if="weatherData">
-    <div class="font-medium py-8 flex items-center justify-between md:justify-start md:gap-10">
+    <div class="font-medium py-8 md:py-10 flex items-center justify-between md:justify-start md:gap-10 md:justify-center">
       <h1 class="text-3xl w-1/2 sm:text-4xl md:w-fit">{{ weatherData.location.name }}, <span class="opacity-70">{{ weatherData.location.country }}</span></h1>
       <div class="cursor-pointer text-accent text-xl sm:text-2xl">
         <i
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-start bg-background gap-4 overflow-x-auto border-b border-gray-600 all -mr-6 hide-scrollbar">
+    <div class="flex items-center justify-start md:justify-center bg-background gap-4 overflow-x-auto border-b border-gray-600 all -mr-6 hide-scrollbar">
       <div
           @click="selectDay(forecastDay.date)"
           v-for="(forecastDay, index) in weatherData.forecast.forecastday"
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-start gap-6 md:gap-8 overflow-x-auto mt-12 -mr-6 hide-scrollbar">
+      <div class="flex items-center justify-start gap-6 md:gap-8 overflow-x-auto mt-12 -mr-6 hide-scrollbar md:justify-center">
         <div v-for="(hourData, index) in filteredHourData" :key="hourData.time" class="flex flex-col gap-2 text-center whitespace-nowrap min-w-max p-4 md:p-6 rounded-xl" :class="index === 0 ? 'bg-primary' : ''">
           <p class="uppercase opacity-80 text-sm" >{{ new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: 'numeric', hour12: true }).format(new Date(hourData.time)) }}</p>
           <img class="mx-auto w-10 md:w-16" :src="getWeatherIcon(hourData.condition.code)" alt="Weather icon" />

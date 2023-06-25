@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-24 w-full">
-    <h2 class="mb-6 text-lg">My favorite cities</h2>
+  <div class="mt-24 w-full md:flex md:flex-col md:items-center">
+    <h2 class="mb-6 text-lg md:text-xl">My favorite cities <i class="fa-solid fa-heart text-accent"></i></h2>
 
     <div v-if="isLoading" class="flex justify-center">
       <div class="spinner"></div>
@@ -8,19 +8,22 @@
 
     <div v-else-if="favoriteCitiesWithData.length > 0">
       <ul class="flex flex-col justify-center gap-4">
-        <li @click="goToCityDetail(city)" v-for="city in favoriteCitiesWithData" :key="city.name" class="flex items-center justify-between bg-primary rounded-xl px-5 py-4 cursor-pointer hover:opacity-90">
+        <li @click="goToCityDetail(city)" v-for="city in favoriteCitiesWithData" :key="city.name" class="md:w-96 flex items-center justify-between bg-primary rounded-xl px-5 py-4 cursor-pointer hover:opacity-90">
           <div class="flex items-center gap-2 justify-start">
             <div class="relative bg-secondary rounded-lg w-10 h-10 flex items-center justify-center">
               <img :src="city.weatherIcon" alt="Weather Icon" class="w-8 h-8" />
             </div>
-            <span>{{ city.name }}, {{ city.country}}</span>
+            <span>{{ truncateText(city.name + ', ' + city.country, 20) }}</span>
           </div>
           <span>{{ Math.round(city.temperature) }}°</span>
         </li>
       </ul>
     </div>
 
-    <img v-else src="../assets/undraw_small_town_re_7mcn.svg" alt="No favorite cities" class="w-56" />
+    <div v-else>
+      <img src="../assets/undraw_small_town_re_7mcn.svg" alt="No favorite cities" class="w-56" />
+      <p class="mt-4 opacity-80"><i>You don't have favorite cities yet</i></p>
+    </div>
   </div>
 </template>
 
@@ -67,7 +70,11 @@ export default defineComponent({
       });
     };
 
-    return { favoriteCitiesWithData, goToCityDetail, isLoading };
+    const truncateText = (text: string, maxLength: number) => {
+      return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+    };
+
+    return { favoriteCitiesWithData, goToCityDetail, isLoading, truncateText };
   },
 });
 </script>

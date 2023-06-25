@@ -1,10 +1,17 @@
 <template>
   <div class="city-detail-view">
-    <div @click="goBack" class="flex items-center justify-start gap-2 cursor-pointer opacity-60 hover:opacity-100 transition-all w-fit mb-10">
-      <i class="fa-solid fa-chevron-left"></i>
-      <p>Retour</p>
+    <div class="flex items-center justify-between">
+      <div @click="goBack" class="flex items-center justify-start gap-2 cursor-pointer opacity-60 hover:opacity-100 transition-all w-fit mb-10">
+        <i class="fa-solid fa-chevron-left"></i>
+        <p>Retour</p>
+      </div>
+      <div class="hidden md:block md:w-72">
+        <SearchBar />
+      </div>
     </div>
-    <SearchBar />
+    <div class="block md:hidden">
+      <SearchBar />
+    </div>
     <WeatherDisplay :lat="lat" :lon="lon" />
   </div>
 </template>
